@@ -11,9 +11,22 @@ import okhttp3.Response;
 public class ApiRequest {
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
     private String prompt;
+    private String choice;
+    private String choiceContent;
 
-    public ApiRequest(String prompt) {
+    public ApiRequest(String prompt, String choice) {
         this.prompt = prompt;
+        this.choice = choice;
+    }
+
+    private String getChoiceContent() {
+        if (this.choice == "summerize") {
+            return "Summarize content you are provided with."
+        } else if (this.choice == "explain") {
+            return "Explain content you are provided with."
+        } else if (this.choice == "getTone") {
+            return "..."
+        }
     }
 
     public String makeRequest() {
@@ -23,9 +36,10 @@ public class ApiRequest {
         {\"model\": \"gpt-3.5-turbo\",
             \"messages\": [
                 {\"role\": \"system\",
-                    \"content\": choice},
+                    \"content\":""" + getChoiceContent() + """
+                },
                 {\"role\": \"user\",
-                    \"content\": prompt
+                    \"content\": """ + prompt + """
                 }
             ]
             }
