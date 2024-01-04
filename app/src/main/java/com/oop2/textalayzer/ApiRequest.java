@@ -26,6 +26,8 @@ public class ApiRequest {
             return "Explain content you are provided with."
         } else if (this.choice == "getTone") {
             return "..."
+        } else {
+            return ""
         }
     }
 
