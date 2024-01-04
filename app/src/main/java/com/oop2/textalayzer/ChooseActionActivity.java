@@ -1,8 +1,5 @@
 package com.oop2.textalayzer;
 
-
-// ChooseActionActivity.java
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +26,6 @@ public class ChooseActionActivity extends AppCompatActivity {
         apiClient = ApiClientInstance.getApiClient();
         radioGroup = findViewById(R.id.radioGroup);
 
-        // Hier RadioButton-Elemente initialisieren
         initializeRadioButtons();
 
         Button btnExecuteAction = findViewById(R.id.btnExecuteAction);
@@ -49,19 +45,17 @@ public class ChooseActionActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                             if (response.isSuccessful()) {
-                                // Verarbeite die Antwort hier
                                 String choices = response.body().getChoices();
-                                // ...
+                                // Muss noch implementiert werden.
+                                
                                 Toast.makeText(ChooseActionActivity.this, choices, Toast.LENGTH_SHORT).show();
                             } else {
-                                // Fehlerbehandlung
                                 Toast.makeText(ChooseActionActivity.this, "Fehler bei der API-Anfrage", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
-                            // Fehlerbehandlung
                             Toast.makeText(ChooseActionActivity.this, "Netzwerkfehler", Toast.LENGTH_SHORT).show();
                         }
                     });

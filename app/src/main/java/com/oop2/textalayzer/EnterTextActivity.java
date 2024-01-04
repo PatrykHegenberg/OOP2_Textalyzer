@@ -15,7 +15,6 @@ public class EnterTextActivity extends AppCompatActivity {
     }
 
     public void processText(View view) {
-        // Implement text processing logic
         Intent intent = new Intent(this, ChooseActionActivity.class);
         startActivity(intent);
     }
