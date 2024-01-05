@@ -32,12 +32,12 @@ public class ApiRequest {
 
     private String getChoiceContent(String choice) {
         switch (choice) {
-            case "summerize":
-                return "Summarize the content provided.";
-            case "explain":
-                return "Explain the content provided.";
-            case "getTone":
-                return "Determine the tone of the content provided.";
+            case "zusammenfassen":
+                return "Fasse den bereitgestellten Inhalt zusammen";
+            case "inhalt analysieren":
+                return "Analyisiere den bereitgestellten Inhalt.";
+            case "stimmung analysieren":
+                return "Analyisieren sie Stimmung des bereitsgestellten Inhalts.";
             default:
                 return "Default Content"; // Standardwert, wenn keine Auswahl getroffen wurde
         }

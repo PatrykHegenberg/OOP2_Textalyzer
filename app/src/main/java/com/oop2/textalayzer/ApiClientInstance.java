@@ -1,5 +1,7 @@
 package com.oop2.textalayzer;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -20,6 +22,8 @@ public class ApiClientInstance {
             // OkHttpClient mit dem Logging Interceptor erstellen
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(loggingInterceptor)
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
                     .build();
 
             // Retrofit-Instanz mit OkHttpClient erstellen

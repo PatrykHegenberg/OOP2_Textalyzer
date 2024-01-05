@@ -81,8 +81,7 @@ public class ChooseActionActivity extends AppCompatActivity {
     private void initializeRadioButtons() {
         // Hier RadioButtons dynamisch erstellen und zur RadioGroup hinzufügen
         // Beispiel:
-        String[] actionOptions = {"Zusammenfassen", "Inhalt analysieren", "Stimmung analysieren:"};
-
+        String[] actionOptions = {"Zusammenfassen", "Inhalt analysieren", "Stimmung analysieren"};
         for (String option : actionOptions) {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(option);
