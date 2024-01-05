@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClientInstance {
 
-    private static final String BASE_URL = "https://api.openai.com/v1/chat/completions";
+    private static final String BASE_URL = "https://api.openai.com/v1/chat/completions/";
 
     private static ApiClient apiClient;
 

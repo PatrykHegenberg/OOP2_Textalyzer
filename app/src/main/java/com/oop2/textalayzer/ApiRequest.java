@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ApiRequest {
-    private static final String API_URL = "https://api.openai.com/v1/chat/completions";
+    private static final String API_URL = "https://api.openai.com/v1/chat/completions/";
     private String prompt;
     private String choice;
     private String choiceContent;
@@ -21,31 +21,20 @@ public class ApiRequest {
 
     private String getChoiceContent() {
         if (this.choice == "summerize") {
-            return "Summarize content you are provided with."
+            return "Summarize content you are provided with.";
         } else if (this.choice == "explain") {
-            return "Explain content you are provided with."
+            return "Explain content you are provided with.";
         } else if (this.choice == "getTone") {
-            return "..."
+            return "...";
         } else {
-            return ""
+            return "";
         }
     }
 
     public String makeRequest() {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        String jsonBody = """
-        {\"model\": \"gpt-3.5-turbo\",
-            \"messages\": [
-                {\"role\": \"system\",
-                    \"content\":""" + getChoiceContent() + """
-                },
-                {\"role\": \"user\",
-                    \"content\": """ + prompt + """
-                }
-            ]
-        }
-        """;
+        String jsonBody = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [ {\"role\": \"system\",\"content\":" + getChoiceContent() + "}, {\"role\": \"user\",\"content\": " + prompt +"}]} ";
         RequestBody requestBody = RequestBody.create(mediaType, jsonBody);
 
         Request request = new Request.Builder()

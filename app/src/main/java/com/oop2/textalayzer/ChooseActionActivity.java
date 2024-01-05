@@ -38,7 +38,7 @@ public class ChooseActionActivity extends AppCompatActivity {
                     RadioButton selectedRadioButton = findViewById(selectedId);
                     String prompt = selectedRadioButton.getText().toString();
 
-                    ApiRequest request = new ApiRequest(prompt);
+                    ApiRequest request = new ApiRequest(prompt, "summerize");
 
                     Call<ApiResponse> call = apiClient.getCompletion(request);
                     call.enqueue(new Callback<ApiResponse>() {
