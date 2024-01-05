@@ -44,7 +44,7 @@ public class ApiRequest {
                     \"content\": """ + prompt + """
                 }
             ]
-            }
+        }
         """;
         RequestBody requestBody = RequestBody.create(mediaType, jsonBody);
 

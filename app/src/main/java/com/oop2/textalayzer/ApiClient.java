@@ -1,6 +1,5 @@
 package com.oop2.textalayzer;
 
-// ApiClient.java
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
