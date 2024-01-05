@@ -1,60 +1,45 @@
 package com.oop2.textalayzer;
 
-import java.io.IOException;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class ApiRequest {
-    private static final String API_URL = "https://api.openai.com/v1/chat/completions/";
-    private String prompt;
-    private String choice;
-    private String choiceContent;
+    private String model;
+    private JsonArray messages;
 
-    public ApiRequest(String prompt, String choice) {
-        this.prompt = prompt;
-        this.choice = choice;
+    public ApiRequest(String prompt, String choice, String model) {
+        this.model = model;
+        this.messages = new JsonArray();
+
+        // Füge zuerst die Systemnachricht und dann die Benutzernachricht hinzu
+        addMessage("system", getChoiceContent(choice));
+        addMessage("user", prompt);
     }
 
-    private String getChoiceContent() {
-        if (this.choice == "summerize") {
-            return "Summarize content you are provided with.";
-        } else if (this.choice == "explain") {
-            return "Explain content you are provided with.";
-        } else if (this.choice == "getTone") {
-            return "...";
-        } else {
-            return "";
-        }
+    public String toJson() {
+        JsonObject root = new JsonObject();
+        root.addProperty("model", model);
+        root.add("messages", messages);
+        return root.toString();
     }
 
-    public String makeRequest() {
-        OkHttpClient client = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        String jsonBody = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [ {\"role\": \"system\",\"content\":" + getChoiceContent() + "}, {\"role\": \"user\",\"content\": " + prompt +"}]} ";
-        RequestBody requestBody = RequestBody.create(mediaType, jsonBody);
+    private void addMessage(String role, String content) {
+        JsonObject message = new JsonObject();
+        message.addProperty("role", role);
+        message.addProperty("content", content);
+        messages.add(message);
+    }
 
-        Request request = new Request.Builder()
-                .url(API_URL)
-                .post(requestBody)
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-
-            if (response.isSuccessful()) {
-                return response.body().string();
-            } else {
-                return "Fehler: " + response.code();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Fehler: Netzwerkfehler";
+    private String getChoiceContent(String choice) {
+        switch (choice) {
+            case "summerize":
+                return "Summarize the content provided.";
+            case "explain":
+                return "Explain the content provided.";
+            case "getTone":
+                return "Determine the tone of the content provided.";
+            default:
+                return "Default Content"; // Standardwert, wenn keine Auswahl getroffen wurde
         }
     }
 }
-
-
