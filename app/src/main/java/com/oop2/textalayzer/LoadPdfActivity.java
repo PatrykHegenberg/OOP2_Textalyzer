@@ -12,6 +12,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.tom_roush.pdfbox.android.PDFBoxResourceLoader;
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
+import com.tom_roush.pdfbox.text.PDFTextStripper;
+
+import java.io.IOException;
+import java.io.InputStream;
 public class LoadPdfActivity extends AppCompatActivity {
 
     private static final int REQUEST_PICK_PDF = 1;
@@ -76,8 +82,43 @@ public class LoadPdfActivity extends AppCompatActivity {
         String filePath = uri.toString();
         Toast.makeText(this, "PDF selected: " + filePath, Toast.LENGTH_SHORT).show();
 
-        // Implement the logic to process the selected PDF file here
+        // Extract text from the selected PDF file
+        String pdfText = extractTextFromPdf(uri);
+
+        // Pass the extracted text to ChooseActionActivity
+        Intent intent = new Intent(this, ChooseActionActivity.class);
+        intent.putExtra("userInput", pdfText);
+        startActivity(intent);
     }
+    private String extractTextFromPdf(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            // Implement the logic to extract text from the InputStream (PDF file)
+            // For example, you can use a library like Apache PDFBox or others
+            // Here, we assume a placeholder method extractTextFromInputStream
+            String extractedText = extractTextFromInputStream(inputStream);
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            return extractedText;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+   private String extractTextFromInputStream(InputStream inputStream) {
+       PDFBoxResourceLoader.init(getApplicationContext());
+       try {
+           PDDocument document = PDDocument.load(inputStream);
+           PDFTextStripper pdfTextStripper = new PDFTextStripper();
+           String text = pdfTextStripper.getText(document);
+           document.close();
+           return text;
+       } catch (IOException e) {
+           e.printStackTrace();
+           return null;
+       }
+   }
 
     public void processPdf(View view) {
         // Implement the logic to process the selected PDF file here
