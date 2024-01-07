@@ -8,7 +8,6 @@ import retrofit2.http.POST;
 public interface ApiClient {
     @Headers({
             "Content-Type: application/json",
-            "Authorization: Bearer"
     })
     @POST("v1/chat/completions")
     Call<ApiResponse> getCompletion(@Body ApiRequest jsonRequest);
