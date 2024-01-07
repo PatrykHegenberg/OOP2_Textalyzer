@@ -62,7 +62,7 @@ public class ChooseActionActivity extends AppCompatActivity {
                                 String choices = response.body().getContent();
                                 Toast.makeText(ChooseActionActivity.this, choices, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(ChooseActionActivity.this, DisplayResultActivity.class);
-                                intent.putExtra("choises", choices);
+                                intent.putExtra("choices", choices);
                                 startActivity(intent);
                             } else {
                                 // Loggen des Statuscodes und der Fehlernachricht
