@@ -2,6 +2,7 @@
 package com.oop2.textalayzer;
 
 import android.content.Intent;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public class DisplayResultActivity extends AppCompatActivity {
 
     private String choices;
+    private ProgressDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadingDialog = new ProgressDialog(this);
+        loadingDialog.setMessage("Loading...");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_result);
 

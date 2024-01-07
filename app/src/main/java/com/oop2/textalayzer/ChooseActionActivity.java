@@ -1,13 +1,14 @@
 package com.oop2.textalayzer;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,8 +22,12 @@ public class ChooseActionActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private String userInput;
 
+    private ProgressDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadingDialog = new ProgressDialog(this);
+        loadingDialog.setMessage("Loading...");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_action);
 
@@ -46,6 +51,7 @@ public class ChooseActionActivity extends AppCompatActivity {
                     if (choice == null || choice.isEmpty()) {
                         choice = "default"; // Ein Standardwert, falls kein RadioButton ausgewählt ist
                     }
+                    loadingDialog.show();
                     ApiRequest request = new ApiRequest(userInput, choice, "gpt-4-1106-preview");
 
                     // String jsonRequest = request.toJson();
@@ -55,6 +61,7 @@ public class ChooseActionActivity extends AppCompatActivity {
                     call.enqueue(new Callback<ApiResponse>() {
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                            loadingDialog.dismiss();
                             if (response.isSuccessful()) {
                                 // Loggen der API-Antwort
                                 Log.d("API Response", response.toString());
@@ -74,6 +81,7 @@ public class ChooseActionActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
+                            loadingDialog.dismiss();
                             Log.e("API Failure", "Fehler bei der Anfrage", t);
                             Toast.makeText(ChooseActionActivity.this, "Netzwerkfehler", Toast.LENGTH_SHORT).show();
                         }
