@@ -1,18 +1,29 @@
 package com.oop2.textalayzer;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class LoadPdfActivity extends AppCompatActivity {
 
     private static final int REQUEST_PICK_PDF = 1;
+
+    // Use ActivityResultLauncher for handling the file picker result
+    private ActivityResultLauncher<Intent> filePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    handleFilePickerResult(result.getData());
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,69 +31,57 @@ public class LoadPdfActivity extends AppCompatActivity {
         setContentView(R.layout.activity_load_pdf);
         checkAndRequestPermission();
     }
+
     private void checkAndRequestPermission() {
-        // Überprüfe, ob die Berechtigung erteilt ist
+        // Check if the permission is granted
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            // Wenn nicht, frage den Benutzer nach der Berechtigung
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_PICK_PDF);
+            // If not, request the permission from the user
+            showPermissionDialog();
         } else {
-            // Wenn die Berechtigung bereits erteilt wurde, starte den Dateiauswahlprozess
+            // If the permission is already granted, start the file picker process
             startFilePicker();
         }
     }
+
+    private void showPermissionDialog() {
+        // Show a dialog explaining that permission is not required due to SAF
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("The app uses the Storage Access Framework (SAF) to access files, and explicit permission is not required.")
+                .setTitle("Permission Notice")
+                .setPositiveButton("Continue", (dialog, which) -> startFilePicker())
+                .setCancelable(false)
+                .show();
+    }
+
     public void choosePdfFile(View view) {
-        // Überprüfe, ob die Berechtigung erteilt ist
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            // Wenn nicht, frage den Benutzer nach der Berechtigung
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_PICK_PDF);
-        } else {
-            // Wenn die Berechtigung bereits erteilt wurde, starte den Dateiauswahlprozess
-            startFilePicker();
-        }
+        // Check if the permission is granted (Not needed for SAF)
+        startFilePicker();
     }
 
     private void startFilePicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/pdf");
-        startActivityForResult(intent, REQUEST_PICK_PDF);
+
+        // Start the file picker using ActivityResultLauncher
+        filePickerLauncher.launch(intent);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == REQUEST_PICK_PDF) {
-            if (grantResults.length > 0 && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                // Wenn die Berechtigung erteilt wurde, starte den Dateiauswahlprozess
-                startFilePicker();
-            } else {
-                // Wenn die Berechtigung nicht erteilt wurde, zeige eine Meldung an
-                Toast.makeText(this, "Berechtigung zum Lesen von Dateien wurde verweigert.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+    // No need to handle onRequestPermissionsResult for READ_EXTERNAL_STORAGE
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PICK_PDF && resultCode == RESULT_OK && data != null) {
-            // Hier kannst du die ausgewählte PDF-Datei verwenden
-            // Der Dateipfad kann mit data.getData().getPath() abgerufen werden
-            Toast.makeText(this, "PDF ausgewählt: " + data.getData().getPath(), Toast.LENGTH_SHORT).show();
+    private void handleFilePickerResult(Intent data) {
+        // You can use the selected PDF file here
+        Uri uri = data.getData();
+        String filePath = uri.toString();
+        Toast.makeText(this, "PDF selected: " + filePath, Toast.LENGTH_SHORT).show();
 
-            // Implementiere hier die Logik zum Verarbeiten der ausgewählten PDF-Datei
-        }
+        // Implement the logic to process the selected PDF file here
     }
 
     public void processPdf(View view) {
-        // Implementiere hier die Logik zum Verarbeiten der ausgewählten PDF-Datei
+        // Implement the logic to process the selected PDF file here
         Intent intent = new Intent(this, ChooseActionActivity.class);
         startActivity(intent);
     }
 }
-
-
