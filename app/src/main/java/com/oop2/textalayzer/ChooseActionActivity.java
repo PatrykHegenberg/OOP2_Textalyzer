@@ -56,8 +56,14 @@ public class ChooseActionActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                             if (response.isSuccessful()) {
-                                String choices = response.body().getChoices();
+                                // Loggen der API-Antwort
+                                Log.d("API Response", response.toString());
+                                Log.d("API Response", response.body().toString());
+                                String choices = response.body().getContent();
                                 Toast.makeText(ChooseActionActivity.this, choices, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ChooseActionActivity.this, DisplayResultActivity.class);
+                                intent.putExtra("choises", choices);
+                                startActivity(intent);
                             } else {
                                 // Loggen des Statuscodes und der Fehlernachricht
                                 String error = "Fehler: " + response.code() + " " + response.message();
@@ -68,6 +74,7 @@ public class ChooseActionActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
+                            Log.e("API Failure", "Fehler bei der Anfrage", t);
                             Toast.makeText(ChooseActionActivity.this, "Netzwerkfehler", Toast.LENGTH_SHORT).show();
                         }
                     });
