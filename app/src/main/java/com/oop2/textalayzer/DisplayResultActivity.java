@@ -31,6 +31,7 @@ public class DisplayResultActivity extends AppCompatActivity {
         resultTextView.setText(choices);
 
         Button backToMainButton = findViewById(R.id.backToMainButton);
+        Button shareButton = findViewById(R.id.shareButton);
         backToMainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,5 +44,11 @@ public class DisplayResultActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish(); // Optional, depending on your navigation requirements
+    }
+    public void shareContent() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, choices);
+        startActivity(Intent.createChooser(intent, "Share via"));
     }
 }
