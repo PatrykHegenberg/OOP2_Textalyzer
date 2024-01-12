@@ -36,6 +36,19 @@ public class LoadPdfActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_pdf);
         checkAndRequestPermission();
+
+        // Intent überprüfen
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_VIEW.equals(action) && "application/pdf".equals(type)) {
+            // PDF-Datei behandeln
+            Uri pdfUri = intent.getData();
+            // Hier kannst du den URI für die PDF-Datei verwenden und deine eigene Logik implementieren
+            handleFilePickerResult(intent);
+        }
+
     }
 
     private void checkAndRequestPermission() {

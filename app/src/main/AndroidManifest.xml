@@ -30,16 +30,23 @@
             android:theme="@style/Theme.Textalayzer" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".EnterTextActivity"/>
         <activity android:name=".ChooseActionActivity"/>
         <activity android:name=".DisplayResultActivity"/>
         <activity android:name=".LoadPdfActivity"
+            android:exported="true"
             android:label="Load PDF Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/pdf" />
+            </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
