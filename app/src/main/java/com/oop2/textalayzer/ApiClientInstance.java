@@ -30,8 +30,8 @@ public class ApiClientInstance {
                                 .build();
                         return chain.proceed(newRequest);
                     })
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
                     .build();
 
             // Retrofit-Instanz mit OkHttpClient erstellen

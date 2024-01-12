@@ -25,12 +25,29 @@
         </RelativeLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/backToMainButton"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Back to Main"
-        android:onClick="backToMain" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/backToMainButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="3dp"
+            android:onClick="backToMain"
+            android:text="Back to Main" />
+
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="7dp"
+            android:onClick="shareContent"
+            android:text="Share" />
+    </LinearLayout>
 </RelativeLayout>

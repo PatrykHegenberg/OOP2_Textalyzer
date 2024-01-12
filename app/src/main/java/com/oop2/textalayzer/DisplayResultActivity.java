@@ -38,6 +38,12 @@ public class DisplayResultActivity extends AppCompatActivity {
                 backToMain();
             }
         });
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareContent();
+            }
+        });
     }
 
     public void backToMain() {
