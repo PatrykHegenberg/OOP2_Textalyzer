@@ -24,6 +24,12 @@ public class ChooseActionActivity extends AppCompatActivity {
 
     private ProgressDialog loadingDialog;
 
+    /**
+     * onCreate method to initialize the activity and handle user actions.
+     *
+     * @param  savedInstanceState  the saved state of the activity
+     * @return                   void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         loadingDialog = new ProgressDialog(this);
@@ -35,12 +41,16 @@ public class ChooseActionActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
 
         Intent intent = getIntent();
-        userInput = intent.getStringExtra("userInput"); // Holt den übertragenen Text
-
+        userInput = intent.getStringExtra("userInput");
         initializeRadioButtons();
 
         Button btnExecuteAction = findViewById(R.id.btnExecuteAction);
         btnExecuteAction.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Handles the onClick event for a specific view, making an API request based on user input.
+             *
+             * @param  v	View object that was clicked
+             */
             @Override
             public void onClick(View v) {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
@@ -49,16 +59,23 @@ public class ChooseActionActivity extends AppCompatActivity {
                     RadioButton selectedRadioButton = findViewById(selectedId);
                     String choice = selectedRadioButton.getText().toString().toLowerCase();
                     if (choice == null || choice.isEmpty()) {
-                        choice = "default"; // Ein Standardwert, falls kein RadioButton ausgewählt ist
+                        choice = "default";
                     }
                     loadingDialog.show();
                     ApiRequest request = new ApiRequest(userInput, choice, "gpt-4-1106-preview");
 
-                    // String jsonRequest = request.toJson();
 
                     Call<ApiResponse> call = apiClient.getCompletion(request);
 
                     call.enqueue(new Callback<ApiResponse>() {
+                        /**
+                         * A method that handles the API response, dismisses a loading dialog,
+                         * logs the API response, and displays the result in the UI.
+                         *
+                         * @param  call     the API call
+                         * @param  response the API response
+                         * @return          void
+                         */
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                             loadingDialog.dismiss();
@@ -72,13 +89,19 @@ public class ChooseActionActivity extends AppCompatActivity {
                                 intent.putExtra("choices", choices);
                                 startActivity(intent);
                             } else {
-                                // Loggen des Statuscodes und der Fehlernachricht
                                 String error = "Fehler: " + response.code() + " " + response.message();
                                 Log.e("API Error", error);
                                 Toast.makeText(ChooseActionActivity.this, error, Toast.LENGTH_SHORT).show();
                             }
                         }
 
+                        /**
+                         * Called when the request could not be executed due to cancellation, a connectivity problem or timeout.
+                         *
+                         * @param  call	the call that was attempted
+                         * @param  t		the error encountered
+                         * @return      	void
+                         */
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
                             loadingDialog.dismiss();
@@ -93,12 +116,16 @@ public class ChooseActionActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes the radio buttons with the given action options.
+     *
+     */
     private void initializeRadioButtons() {
-        // Hier RadioButtons dynamisch erstellen und zur RadioGroup hinzufügen
-        // Beispiel:
         String[] actionOptions = {"Zusammenfassen", "Inhalt analysieren", "Stimmung analysieren"};
         for (String option : actionOptions) {
             RadioButton radioButton = new RadioButton(this);
+            radioButton.setLayoutParams(new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT));
+            radioButton.setTextSize(12);
             radioButton.setText(option);
             radioGroup.addView(radioButton);
         }

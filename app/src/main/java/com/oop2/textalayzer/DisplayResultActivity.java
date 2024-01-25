@@ -16,6 +16,12 @@ public class DisplayResultActivity extends AppCompatActivity {
     private String choices;
     private ProgressDialog loadingDialog;
 
+    /**
+     * onCreate method for initializing the activity and setting up the UI components.
+     *
+     * @param  savedInstanceState  the saved instance state
+     * @return                   void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         loadingDialog = new ProgressDialog(this);
@@ -25,7 +31,7 @@ public class DisplayResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         choices = intent.getStringExtra("choices");
-        Log.d("DisplayResultActivity", "Received choices: " + choices); // Überprüfe die Log-Ausgabe
+        Log.d("DisplayResultActivity", "Received choices: " + choices);
 
         TextView resultTextView = findViewById(R.id.resultTextView);
         resultTextView.setText(choices);
@@ -33,12 +39,24 @@ public class DisplayResultActivity extends AppCompatActivity {
         Button backToMainButton = findViewById(R.id.backToMainButton);
         Button shareButton = findViewById(R.id.shareButton);
         backToMainButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick method for handling click events.
+             *
+             * @param  v    the view that was clicked
+             * @return      void, no return value
+             */
             @Override
             public void onClick(View v) {
                 backToMain();
             }
         });
         shareButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick method for handling click events.
+             *
+             * @param  v   the view that was clicked
+             * @return     void, no return value
+             */
             @Override
             public void onClick(View v) {
                 shareContent();
@@ -46,11 +64,18 @@ public class DisplayResultActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to navigate back to the main activity.
+     *
+     */
     public void backToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        finish(); // Optional, depending on your navigation requirements
+        finish();
     }
+    /**
+     * A method to share content using an Intent.
+     */
     public void shareContent() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");

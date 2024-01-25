@@ -22,7 +22,6 @@ public class LoadPdfActivity extends AppCompatActivity {
 
     private static final int REQUEST_PICK_PDF = 1;
 
-    // Use ActivityResultLauncher for handling the file picker result
     private ActivityResultLauncher<Intent> filePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -31,40 +30,48 @@ public class LoadPdfActivity extends AppCompatActivity {
                 }
             });
 
+    /**
+     * onCreate method to handle the creation of the activity, including
+     * checking and requesting permissions, getting the intent, and handling
+     * PDF file viewing.
+     *
+     * @param  savedInstanceState  the saved state of the activity
+     * @return                   void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_pdf);
         checkAndRequestPermission();
 
-        // Intent überprüfen
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
 
         if (Intent.ACTION_VIEW.equals(action) && "application/pdf".equals(type)) {
-            // PDF-Datei behandeln
             Uri pdfUri = intent.getData();
-            // Hier kannst du den URI für die PDF-Datei verwenden und deine eigene Logik implementieren
             handleFilePickerResult(intent);
         }
 
     }
 
+    /**
+     * Method to check and request permission.
+     *
+     */
     private void checkAndRequestPermission() {
-        // Check if the permission is granted
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            // If not, request the permission from the user
             showPermissionDialog();
         } else {
-            // If the permission is already granted, start the file picker process
             startFilePicker();
         }
     }
 
+    /**
+     * Show permission dialog to inform user about storage access and prompt for action.
+     */
     private void showPermissionDialog() {
-        // Show a dialog explaining that permission is not required due to SAF
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("The app uses the Storage Access Framework (SAF) to access files, and explicit permission is not required.")
                 .setTitle("Permission Notice")
@@ -73,42 +80,52 @@ public class LoadPdfActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Choose a PDF file.
+     *
+     * @param  view	the view triggering the file selection
+     * @return     	void
+     */
     public void choosePdfFile(View view) {
-        // Check if the permission is granted (Not needed for SAF)
         startFilePicker();
     }
 
+    /**
+     * Starts the file picker to allow the user to select a PDF file.
+     */
     private void startFilePicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/pdf");
 
-        // Start the file picker using ActivityResultLauncher
         filePickerLauncher.launch(intent);
     }
 
-    // No need to handle onRequestPermissionsResult for READ_EXTERNAL_STORAGE
-
+    /**
+     * Handles the result from the file picker.
+     *
+     * @param  data  the intent data containing the file URI
+     */
     private void handleFilePickerResult(Intent data) {
-        // You can use the selected PDF file here
         Uri uri = data.getData();
         String filePath = uri.toString();
         Toast.makeText(this, "PDF selected: " + filePath, Toast.LENGTH_SHORT).show();
 
-        // Extract text from the selected PDF file
         String pdfText = extractTextFromPdf(uri);
 
-        // Pass the extracted text to ChooseActionActivity
         Intent intent = new Intent(this, ChooseActionActivity.class);
         intent.putExtra("userInput", pdfText);
         startActivity(intent);
     }
+    /**
+     * Extracts text from a PDF file given its URI.
+     *
+     * @param  uri  the URI of the PDF file
+     * @return      the extracted text from the PDF file
+     */
     private String extractTextFromPdf(Uri uri) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(uri);
-            // Implement the logic to extract text from the InputStream (PDF file)
-            // For example, you can use a library like Apache PDFBox or others
-            // Here, we assume a placeholder method extractTextFromInputStream
             String extractedText = extractTextFromInputStream(inputStream);
             if (inputStream != null) {
                 inputStream.close();
@@ -119,6 +136,12 @@ public class LoadPdfActivity extends AppCompatActivity {
             return null;
         }
     }
+   /**
+    * Extracts text from the input stream.
+    *
+    * @param  inputStream  the input stream from which to extract text
+    * @return              the extracted text, or null if an error occurs
+    */
    private String extractTextFromInputStream(InputStream inputStream) {
        PDFBoxResourceLoader.init(getApplicationContext());
        try {
@@ -133,8 +156,12 @@ public class LoadPdfActivity extends AppCompatActivity {
        }
    }
 
+    /**
+     * Process the PDF by starting the ChooseActionActivity.
+     *
+     * @param  view	The view parameter for processing the PDF
+     */
     public void processPdf(View view) {
-        // Implement the logic to process the selected PDF file here
         Intent intent = new Intent(this, ChooseActionActivity.class);
         startActivity(intent);
     }

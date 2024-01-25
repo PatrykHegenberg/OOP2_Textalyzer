@@ -22,59 +22,126 @@ public class ApiResponse {
         parseJsonResponse(jsonResponse);
     }
 
+    /**
+     * Retrieves the id of the object.
+     *
+     * @return the id of the object
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Retrieves the object.
+     *
+     * @return         	the retrieved object
+     */
     public String getObject() {
         return object;
     }
 
+    /**
+     * Get the timestamp of when the object was created.
+     *
+     * @return         	the timestamp of when the object was created
+     */
     public long getCreated() {
         return created;
     }
 
+    /**
+     * Gets the model.
+     *
+     * @return  the model
+     */
     public String getModel() {
         return model;
     }
 
+    /**
+     * Retrieves the list of choices.
+     *
+     * @return the list of choices
+     */
     public List<Choice> getChoices() {
         return choices;
     }
 
+    /**
+     * Get the usage.
+     *
+     * @return         	the usage
+     */
     public Usage getUsage() {
         return usage;
     }
 
+    /**
+     * Retrieves the system fingerprint.
+     *
+     * @return  the system fingerprint
+     */
     public String getSystem_fingerprint() {
         return system_fingerprint;
     }
 
-    private void parseJsonResponse(String jsonResponse) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            id = jsonObject.getString("id");
-            object = jsonObject.getString("object");
-            created = jsonObject.getLong("created");
-            model = jsonObject.getString("model");
+/**
+ * Parses the given JSON response and populates the corresponding fields.
+ *
+ * @param  jsonResponse  the JSON response to be parsed
+ */
+private void parseJsonResponse(String jsonResponse) {
+    try {
+        // Create a JSONObject from the given JSON response
+        JSONObject jsonObject = new JSONObject(jsonResponse);
 
-            JSONArray choicesArray = jsonObject.getJSONArray("choices");
-            choices = new ArrayList<>();
-            for (int i = 0; i < choicesArray.length(); i++) {
-                JSONObject choiceObj = choicesArray.getJSONObject(i);
-                Choice choice = new Choice(choiceObj);
-                choices.add(choice);
-            }
+        // Extract the "id" field from the JSON object and assign it to the "id" variable
+        id = jsonObject.getString("id");
 
-            JSONObject usageObj = jsonObject.getJSONObject("usage");
-            usage = new Usage(usageObj);
+        // Extract the "object" field from the JSON object and assign it to the "object" variable
+        object = jsonObject.getString("object");
 
-            system_fingerprint = jsonObject.getString("system_fingerprint");
-        } catch (JSONException e) {
-            Log.d("API Response", "Error parsing JSON response: " + e.getMessage());
-            e.printStackTrace();
+        // Extract the "created" field from the JSON object and assign it to the "created" variable
+        created = jsonObject.getLong("created");
+
+        // Extract the "model" field from the JSON object and assign it to the "model" variable
+        model = jsonObject.getString("model");
+
+        // Extract the "choices" array from the JSON object
+        JSONArray choicesArray = jsonObject.getJSONArray("choices");
+
+        // Create an empty list to store the choices
+        choices = new ArrayList<>();
+
+        // Iterate over each element in the "choices" array
+        for (int i = 0; i < choicesArray.length(); i++) {
+            // Get the JSON object at the current index
+            JSONObject choiceObj = choicesArray.getJSONObject(i);
+
+            // Create a new Choice object using the JSON object and add it to the choices list
+            Choice choice = new Choice(choiceObj);
+            choices.add(choice);
         }
+
+        // Extract the "usage" object from the JSON object
+        JSONObject usageObj = jsonObject.getJSONObject("usage");
+
+        // Create a new Usage object using the "usage" object and assign it to the "usage" variable
+        usage = new Usage(usageObj);
+
+        // Extract the "system_fingerprint" field from the JSON object and assign it to the "system_fingerprint" variable
+        system_fingerprint = jsonObject.getString("system_fingerprint");
+    } catch (JSONException e) {
+        // Log an error message if there is an exception while parsing the JSON response
+        Log.d("API Response", "Error parsing JSON response: " + e.getMessage());
+        e.printStackTrace();
     }
+}
+    /**
+     * Retrieves the content of the first choice message, if available.
+     *
+     * @return         	the content of the first choice message, or an empty string if no choices are available
+     */
     public String getContent() {
         if (choices != null && !choices.isEmpty()) {
             return choices.get(0).getMessage().getContent();
@@ -97,7 +164,11 @@ public class ApiResponse {
             finish_reason = jsonObject.getString("finish_reason");
         }
 
-        // Getter und Setter für jedes Feld
+        /**
+         * Retrieves the message.
+         *
+         * @return  the message to be retrieved
+         */
         public Message getMessage() {
             return message;
         }
@@ -110,7 +181,11 @@ public class ApiResponse {
                 content = jsonObject.getString("content");
             }
 
-            // Getter und Setter für jedes Feld
+            /**
+             * Gets the content of the object.
+             *
+             * @return         	the content of the object
+             */
             public String getContent() {
                 return content;
             }
@@ -128,6 +203,5 @@ public class ApiResponse {
             total_tokens = jsonObject.getInt("total_tokens");
         }
 
-        // Getter und Setter für jedes Feld
     }
 }

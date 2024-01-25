@@ -6,32 +6,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class ApiKeyProvider {
-    public static String getApiKey() {
-        // Pfad zur Datei mit dem API-Schlüssel
-        String filePath = "assets/config.txt";
+/**
+ * Retrieves the API key from the specified file path.
+ *
+ * @return the API key as a string
+ */
+public static String getApiKey() {
+    String filePath = "assets/config.txt";  // Set the file path
 
-        try {
-            // Öffne die Datei als InputStream
-            InputStream inputStream = ApiKeyProvider.class.getClassLoader().getResourceAsStream(filePath);
+    try {
+        // Attempt to open the file as an input stream
+        InputStream inputStream = ApiKeyProvider.class.getClassLoader().getResourceAsStream(filePath);
 
-            if (inputStream != null) {
-                // Verwende BufferedReader, um die Datei Zeile für Zeile zu lesen
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
+        // If the input stream is not null, read the file and return its contents as a string
+        if (inputStream != null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
 
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-
-                // Gib den Inhalt der Datei als String zurück
-                return stringBuilder.toString().trim();
+            // Read each line of the file and append it to the string builder
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Hier könntest du eine spezifischere Exception werfen oder einen Standardwert zurückgeben.
-        }
 
-        return "";
+            return stringBuilder.toString().trim();  // Return the file contents as a string
+        }
+    } catch (IOException e) {
+        e.printStackTrace();  // Print the stack trace if an IOException occurs
     }
+
+    return "";  // Return an empty string if the file cannot be read
+}
 }

@@ -6,6 +6,12 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiClient {
+    /**
+     * A description of the entire Java function.
+     *
+     * @param  jsonRequest	description of parameter
+     * @return         	description of return value
+     */
     @Headers({
             "Content-Type: application/json",
     })
