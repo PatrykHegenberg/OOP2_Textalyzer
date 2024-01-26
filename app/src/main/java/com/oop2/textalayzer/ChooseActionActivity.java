@@ -17,7 +17,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A class that represents an activity for choosing an action.
+ * This class represents an Android Activity where users can choose an action to
+ * perform.
+ * It uses the Singleton pattern to access the API client and makes API requests
+ * based on user input.
  */
 public class ChooseActionActivity extends AppCompatActivity {
 
@@ -28,10 +31,10 @@ public class ChooseActionActivity extends AppCompatActivity {
     private ProgressDialog loadingDialog;
 
     /**
-     * onCreate method to initialize the activity and handle user actions.
+     * This method is called at creation time. It initializes the activity and sets
+     * up listeners for user interactions.
      *
-     * @param  savedInstanceState  the saved state of the activity
-     * @return                   void
+     * @param savedInstanceState the saved state of the activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +53,11 @@ public class ChooseActionActivity extends AppCompatActivity {
         Button btnExecuteAction = findViewById(R.id.btnExecuteAction);
         btnExecuteAction.setOnClickListener(new View.OnClickListener() {
             /**
-             * Handles the onClick event for a specific view, making an API request based on user input.
+             * This method handles the onClick event for the execute action button.
+             * It retrieves the selected radio button, constructs an API request, and sends
+             * it.
              *
-             * @param  v	View object that was clicked
+             * @param v View object that was clicked
              */
             @Override
             public void onClick(View v) {
@@ -67,17 +72,18 @@ public class ChooseActionActivity extends AppCompatActivity {
                     loadingDialog.show();
                     ApiRequest request = new ApiRequest(userInput, choice, "gpt-4-1106-preview");
 
-
                     Call<ApiResponse> call = apiClient.getCompletion(request);
 
                     call.enqueue(new Callback<ApiResponse>() {
                         /**
-                         * A method that handles the API response, dismisses a loading dialog,
-                         * logs the API response, and displays the result in the UI.
+                         * This method handles the API response. It dismisses the loading dialog, logs
+                         * the response,
+                         * and displays the result in the UI. If the request fails, it logs the failure
+                         * and shows a toast message.
                          *
-                         * @param  call     the API call
-                         * @param  response the API response
-                         * @return          void
+                         * @param call     the API call
+                         * @param response the API response
+                         * @return void
                          */
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -99,11 +105,13 @@ public class ChooseActionActivity extends AppCompatActivity {
                         }
 
                         /**
-                         * Called when the request could not be executed due to cancellation, a connectivity problem or timeout.
+                         * This method is called when the request could not be executed due to
+                         * cancellation, a connectivity problem or timeout.
+                         * It dismisses the loading dialog and logs the failure.
                          *
-                         * @param  call	the call that was attempted
-                         * @param  t		the error encountered
-                         * @return      	void
+                         * @param call the call that was attempted
+                         * @param t    the error encountered
+                         * @return void
                          */
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
@@ -113,21 +121,24 @@ public class ChooseActionActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast.makeText(ChooseActionActivity.this, "Bitte wählen Sie eine Aktion aus.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChooseActionActivity.this, "Bitte wählen Sie eine Aktion aus.", Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
         });
     }
 
     /**
-     * Initializes the radio buttons with the given action options.
+     * This method initializes the radio buttons with the given action options.
+     * Each option is represented by a radio button in the radio group.
      *
      */
     private void initializeRadioButtons() {
-        String[] actionOptions = {"Zusammenfassen", "Inhalt analysieren", "Stimmung analysieren"};
+        String[] actionOptions = { "Zusammenfassen", "Inhalt analysieren", "Stimmung analysieren" };
         for (String option : actionOptions) {
             RadioButton radioButton = new RadioButton(this);
-            radioButton.setLayoutParams(new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT));
+            radioButton.setLayoutParams(new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT));
             radioButton.setTextSize(12);
             radioButton.setText(option);
             radioGroup.addView(radioButton);

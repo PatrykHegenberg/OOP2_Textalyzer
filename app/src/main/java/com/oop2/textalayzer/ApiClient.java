@@ -6,14 +6,19 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
- * This Interface is used to make a POST request to the OpenAI API.
+ * This interface, ApiClient, is designed to facilitate communication with the
+ * OpenAI API via HTTP POST requests.
  */
 public interface ApiClient {
     /**
-     * A description of the entire Java function.
+     * This method sends a POST request to the OpenAI API endpoint
+     * "v1/chat/completions". The JSON body of the request is passed as a parameter.
+     * The response from the API is encapsulated in an instance of ApiResponse.
      *
-     * @param  jsonRequest	description of parameter
-     * @return         	description of return value
+     * @param jsonRequest An instance of ApiRequest containing the data to be sent
+     *                    in the body of the POST request.
+     * @return A Call object representing the HTTP request. This can be used to send
+     *         the request and handle the response.
      */
     @Headers({
             "Content-Type: application/json",

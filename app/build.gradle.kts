@@ -17,6 +17,8 @@ android {
     }
     packagingOptions {
         exclude ("META-INF/DEPENDENCIES")
+        exclude ("META-INF/LICENSE.md")
+        exclude ("META-INF/LICENSE-notice.md")
     }
     buildTypes {
         release {
@@ -40,6 +42,7 @@ android {
         includeInApk = true
         includeInBundle = true
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -55,6 +58,10 @@ dependencies {
     implementation ("com.tom-roush:pdfbox-android:2.0.27.0")
     implementation ("org.apache.pdfbox:pdfbox:3.0.1")
     implementation("androidx.test:core:1.5.0")
+   //implementation(fileTree(mapOf(
+   //    "dir" to "/home/pata/Android/Sdk/platforms/android-34/",
+   //    "include" to listOf("*.aar", "*.jar"),
+   //)))
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

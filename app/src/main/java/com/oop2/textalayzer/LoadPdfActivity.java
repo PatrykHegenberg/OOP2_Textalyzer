@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * A class that represents an activity for loading a PDF file.
+ * This class represents an Android activity for loading a PDF file.
+ * It allows users to select a PDF file from their device's storage,
+ * extracts the text from the selected PDF, and then passes this text to another
+ * activity for further processing.
  */
 public class LoadPdfActivity extends AppCompatActivity {
 
@@ -35,12 +38,11 @@ public class LoadPdfActivity extends AppCompatActivity {
             });
 
     /**
-     * onCreate method to handle the creation of the activity, including
+     * This method handles the creation of the activity, including
      * checking and requesting permissions, getting the intent, and handling
      * PDF file viewing.
      *
-     * @param  savedInstanceState  the saved state of the activity
-     * @return                   void
+     * @param savedInstanceState the saved state of the activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +62,13 @@ public class LoadPdfActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to check and request permission.
-     *
+     * This method checks and requests permission for reading external storage.
+     * If the permission is not granted, it shows a dialog to the user explaining
+     * why the permission is needed.
      */
     private void checkAndRequestPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
             showPermissionDialog();
         } else {
             startFilePicker();
@@ -73,11 +76,13 @@ public class LoadPdfActivity extends AppCompatActivity {
     }
 
     /**
-     * Show permission dialog to inform user about storage access and prompt for action.
+     * This method shows a dialog to the user explaining why the app needs storage
+     * access.
      */
     private void showPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("The app uses the Storage Access Framework (SAF) to access files, and explicit permission is not required.")
+        builder.setMessage(
+                "The app uses the Storage Access Framework (SAF) to access files, and explicit permission is not required.")
                 .setTitle("Permission Notice")
                 .setPositiveButton("Continue", (dialog, which) -> startFilePicker())
                 .setCancelable(false)
@@ -85,17 +90,17 @@ public class LoadPdfActivity extends AppCompatActivity {
     }
 
     /**
-     * Choose a PDF file.
+     * This method starts the file picker to allow the user to select a PDF file.
+     * It is triggered when the user clicks on the button to choose a PDF file.
      *
-     * @param  view	the view triggering the file selection
-     * @return     	void
+     * @param view the view triggering the file selection
      */
     public void choosePdfFile(View view) {
         startFilePicker();
     }
 
     /**
-     * Starts the file picker to allow the user to select a PDF file.
+     * This method starts the file picker to allow the user to select a PDF file.
      */
     private void startFilePicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -106,9 +111,11 @@ public class LoadPdfActivity extends AppCompatActivity {
     }
 
     /**
-     * Handles the result from the file picker.
+     * This method handles the result from the file picker.
+     * It extracts the text from the selected PDF file and passes it to the
+     * ChooseActionActivity.
      *
-     * @param  data  the intent data containing the file URI
+     * @param data the intent data containing the file URI
      */
     private void handleFilePickerResult(Intent data) {
         Uri uri = data.getData();
@@ -121,11 +128,14 @@ public class LoadPdfActivity extends AppCompatActivity {
         intent.putExtra("userInput", pdfText);
         startActivity(intent);
     }
+
     /**
-     * Extracts text from a PDF file given its URI.
+     * This method extracts text from a PDF file given its URI.
+     * It opens an input stream from the file and then calls another method to
+     * extract the text from this stream.
      *
-     * @param  uri  the URI of the PDF file
-     * @return      the extracted text from the PDF file
+     * @param uri the URI of the PDF file
+     * @return the extracted text from the PDF file
      */
     private String extractTextFromPdf(Uri uri) {
         try {
@@ -140,30 +150,34 @@ public class LoadPdfActivity extends AppCompatActivity {
             return null;
         }
     }
-   /**
-    * Extracts text from the input stream.
-    *
-    * @param  inputStream  the input stream from which to extract text
-    * @return              the extracted text, or null if an error occurs
-    */
-   private String extractTextFromInputStream(InputStream inputStream) {
-       PDFBoxResourceLoader.init(getApplicationContext());
-       try {
-           PDDocument document = PDDocument.load(inputStream);
-           PDFTextStripper pdfTextStripper = new PDFTextStripper();
-           String text = pdfTextStripper.getText(document);
-           document.close();
-           return text;
-       } catch (IOException e) {
-           e.printStackTrace();
-           return null;
-       }
-   }
+
+    /**
+     * This method extracts text from the input stream using the PDFBox library.
+     * It loads the document from the input stream, creates a PDFTextStripper
+     * object,
+     * and then gets the text from the document using this stripper.
+     *
+     * @param inputStream the input stream from which to extract text
+     * @return the extracted text, or null if an error occurs
+     */
+    private String extractTextFromInputStream(InputStream inputStream) {
+        PDFBoxResourceLoader.init(getApplicationContext());
+        try {
+            PDDocument document = PDDocument.load(inputStream);
+            PDFTextStripper pdfTextStripper = new PDFTextStripper();
+            String text = pdfTextStripper.getText(document);
+            document.close();
+            return text;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * Process the PDF by starting the ChooseActionActivity.
      *
-     * @param  view	The view parameter for processing the PDF
+     * @param view the view to process
      */
     public void processPdf(View view) {
         Intent intent = new Intent(this, ChooseActionActivity.class);

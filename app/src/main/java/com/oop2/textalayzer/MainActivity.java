@@ -7,15 +7,18 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * An activity that represents the main screen.
+ * This class represents the main activity of the application.
+ * It extends AppCompatActivity, which is a base class for activities that use
+ * the support library action bar features.
  */
 public class MainActivity extends AppCompatActivity {
 
     /**
-     * A method called when the activity is first created.
+     * This method is called when the activity is first created.
+     * It sets the content view to the layout file associated with this activity.
      *
-     * @param  savedInstanceState	the saved state of the activity
-     * @return         	void, no return value
+     * @param savedInstanceState the saved state of the activity, used to restore
+     *                           the previous state of the activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * loadPdfScreen function loads the Pdf screen.
+     * This method is triggered when the PDF screen button is clicked.
+     * It starts the LoadPdfActivity, which presumably displays a PDF document.
      *
-     * @param  view	the view to load the Pdf screen on
-     * @return     	void, no return value
+     * @param view the view that was clicked to trigger this method
      */
     public void loadPdfScreen(View view) {
         Intent intent = new Intent(this, LoadPdfActivity.class);
@@ -35,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * A method for entering the text screen.
+     * This method is triggered when the text entry screen button is clicked.
+     * It starts the EnterTextActivity, which presumably allows the user to enter
+     * text.
      *
-     * @param  view	The view parameter for the screen
+     * @param view the view that was clicked to trigger this method
      */
     public void enterTextScreen(View view) {
         Intent intent = new Intent(this, EnterTextActivity.class);

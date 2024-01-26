@@ -12,7 +12,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * A class that represents an activity for displaying the result.
+ * This class represents an Android Activity that displays the results of the
+ * Analysis task.
+ * It extends AppCompatActivity, which is a common base class for activities
+ * that use the support library action bar features.
  */
 public class DisplayResultActivity extends AppCompatActivity {
 
@@ -20,10 +23,11 @@ public class DisplayResultActivity extends AppCompatActivity {
     private ProgressDialog loadingDialog;
 
     /**
-     * onCreate method for initializing the activity and setting up the UI components.
+     * This method is called at creation time for the activity. It sets up the user
+     * interface and retrieves any data passed into the activity.
      *
-     * @param  savedInstanceState  the saved instance state
-     * @return                   void
+     * @param savedInstanceState the saved instance state, used to restore the
+     *                           previous state of the activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,10 @@ public class DisplayResultActivity extends AppCompatActivity {
         Button shareButton = findViewById(R.id.shareButton);
         backToMainButton.setOnClickListener(new View.OnClickListener() {
             /**
-             * onClick method for handling click events.
+             * This method is called when the back button is clicked.
+             * It navigates the user back to the main activity.
              *
-             * @param  v    the view that was clicked
-             * @return      void, no return value
+             * @param v the view that was clicked
              */
             @Override
             public void onClick(View v) {
@@ -55,10 +59,10 @@ public class DisplayResultActivity extends AppCompatActivity {
         });
         shareButton.setOnClickListener(new View.OnClickListener() {
             /**
-             * onClick method for handling click events.
+             * This method is called when the share button is clicked.
+             * It shares the content of the 'choices' variable.
              *
-             * @param  v   the view that was clicked
-             * @return     void, no return value
+             * @param v the view that was clicked
              */
             @Override
             public void onClick(View v) {
@@ -68,16 +72,19 @@ public class DisplayResultActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to navigate back to the main activity.
-     *
+     * This method navigates the user back to the main activity.
+     * It creates a new Intent for the MainActivity and starts it.
      */
     public void backToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
+
     /**
-     * A method to share content using an Intent.
+     * This method shares the content of the 'choices' variable.
+     * It creates a new Intent with the ACTION_SEND action and the text to be
+     * shared, then starts an activity chooser.
      */
     public void shareContent() {
         Intent intent = new Intent(Intent.ACTION_SEND);
