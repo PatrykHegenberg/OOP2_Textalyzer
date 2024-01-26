@@ -12,8 +12,9 @@
 
     <Button
         android:id="@+id/btnLoadPdf"
-        android:layout_width="0dp"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
         android:backgroundTint="#AB82FF"
         android:onClick="loadPdfScreen"
         android:text="PDF laden"
@@ -24,13 +25,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.914"
+        app:layout_constraintVertical_bias="0.884"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/btnEnterText"
-        android:layout_width="411dp"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
         android:layout_marginTop="498dp"
         android:layout_marginBottom="185dp"
         android:backgroundTint="#AB82FF"
@@ -40,8 +42,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -51,12 +55,12 @@
         android:layout_marginTop="103dp"
         android:layout_marginEnd="110dp"
         android:layout_marginBottom="402dp"
-        app:tint="#AB82FF"
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_search" />
+        app:srcCompat="@android:drawable/ic_menu_search"
+        app:tint="#AB82FF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
