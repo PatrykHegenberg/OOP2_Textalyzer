@@ -9,6 +9,9 @@ package com.oop2.textalayzer;
         import java.util.ArrayList;
         import java.util.List;
 
+/**
+ * A class that represents an API response.
+ */
 public class ApiResponse {
     private String id;
     private String object;

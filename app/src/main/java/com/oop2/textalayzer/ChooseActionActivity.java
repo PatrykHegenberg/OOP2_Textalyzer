@@ -16,6 +16,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * A class that represents an activity for choosing an action.
+ */
 public class ChooseActionActivity extends AppCompatActivity {
 
     private ApiClient apiClient;

@@ -5,6 +5,9 @@ import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
+/**
+ * This Interface is used to make a POST request to the OpenAI API.
+ */
 public interface ApiClient {
     /**
      * A description of the entire Java function.

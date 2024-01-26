@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * A class that provides an API key from a file.
+ */
 public class ApiKeyProvider {
 /**
  * Retrieves the API key from the specified file path.

@@ -3,6 +3,9 @@ package com.oop2.textalayzer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+/**
+ * A class that represents an API request.
+ */
 public class ApiRequest {
     private String model;
     private JsonArray messages;

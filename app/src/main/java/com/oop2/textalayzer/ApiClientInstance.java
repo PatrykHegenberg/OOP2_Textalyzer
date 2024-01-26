@@ -8,6 +8,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * A class that provides an instance of the API client.
+ */
 public class ApiClientInstance {
 
     private static final String BASE_URL = "https://api.openai.com/";

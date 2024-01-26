@@ -7,6 +7,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * A class that represents an activity for entering text.
+ */
 public class EnterTextActivity extends AppCompatActivity {
 
     /**

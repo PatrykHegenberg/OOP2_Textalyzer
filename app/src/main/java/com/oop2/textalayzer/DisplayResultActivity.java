@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * A class that represents an activity for displaying the result.
+ */
 public class DisplayResultActivity extends AppCompatActivity {
 
     private String choices;

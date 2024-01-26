@@ -18,6 +18,10 @@ import com.tom_roush.pdfbox.text.PDFTextStripper;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+/**
+ * A class that represents an activity for loading a PDF file.
+ */
 public class LoadPdfActivity extends AppCompatActivity {
 
     private static final int REQUEST_PICK_PDF = 1;
